@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-class TransferFunction():
+class tf():
     def __init__(self, num, den):
         self.num = num
         self.den = den
@@ -10,7 +10,7 @@ class TransferFunction():
         return f'num={num} den={den}'
 
 freqs = np.linspace(-1000, 1000, num=100000)
-def plot_bode(tf, freqs=freqs):
+def bode(tf, freqs=freqs):
     # s = sigma + j * omega, but for steady state error, sigma = 0 -> s = j * omega
     freqs = [freq * 1j for freq in freqs]
     gains, phases = [], []
@@ -42,10 +42,10 @@ def plot_bode(tf, freqs=freqs):
     plt.subplots_adjust(top=0.91, hspace=0.4)
     plt.show()
 
-def plot_roots(tf):
-    plot_rlocus(tf=tf, gains=[])
+def roots(tf):
+    rlocus(tf=tf, gains=[])
 
-def plot_rlocus(tf, gains=range(10000)):
+def rlocus(tf, gains=range(10000)):
     num, den = tf.num, tf.den
     num_zeros = len(num) - 1
     num_poles = len(den) - 1
