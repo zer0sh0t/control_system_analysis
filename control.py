@@ -6,6 +6,26 @@ class tf():
         self.num = num
         self.den = den
         
+    def __add__(self, other):
+        num = np.polyadd(np.polymul(self.num, other.den), np.polymul(other.num, self.den))
+        den = np.polymul(self.den, other.den)
+        return tf(num, den)
+
+    def __mul__(self, other):
+        num = np.polymul(self.num, other.num)
+        den = np.polymul(self.den, other.den)
+        return tf(num, den)
+
+    def __sub__(self, other):
+        num = np.polysub(np.polymul(self.num, other.den), np.polymul(other.num, self.den))
+        den = np.polymul(self.den, other.den)
+        return tf(num, den)
+
+    def __truediv__(self, other):
+        num = np.polymul(self.num, other.den)
+        den = np.polymul(self.den, other.num)
+        return tf(num, den)
+
     def __repr__(self):
         return f'num={num} den={den}'
 
@@ -122,3 +142,9 @@ def rlocus(tf, gains=range(10000)):
     plt.title(t)
     plt.grid()
     plt.show()
+
+def pid_controller(Kp, Ki, Kd):
+    num = [Kd, Kp, Ki]
+    den = [1, 0]
+    pid = tf(num, den)
+    return pid
